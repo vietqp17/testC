@@ -1,0 +1,23 @@
+https://www.youtube.com/watch?v=APOPm01BVrk
+
+python -m venv project0_env
+
+dir 
+
+cls
+
+project_evn\Scripts\activate.bat
+
+pip freeze
+
+deactivate
+
+rmdir project_env /s
+
+mkdir my_project
+
+pip install -r requirements.txt
+
+python -m venv venv --system-site-packages
+
+pip list --local
