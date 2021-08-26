@@ -1,8 +1,18 @@
 import numpy as np
 import myModule
 
-input_1 = np.array([[1,2,3],[1,2,3]], dtype="double")
+num_row = 2
+num_col = 3
 
-input_2 = np.array([[1,2,3],[1,2,3]], dtype="double")
+input_1 = np.round(np.random.rand(num_row,num_col)*5,2).astype("double")
+print("1st array: ")
+print(input_1)
 
-myModule.fib(input_1, input_2)
+input_2 = np.round(np.random.rand(num_row,num_col)*5,2).astype("double")
+print("2nd array: ")
+print(input_2)
+
+output = np.zeros((num_row,num_col), dtype="double")
+myModule.ext_matadd(num_row,num_col,input_1, input_2, output)
+print("Output array: ")
+print(output)

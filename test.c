@@ -11,56 +11,58 @@
 #include <arrayobject.h>
 
 /* ------------------ 2nd part: The C functions ------------------ */
-/* Function 2: A C fibonacci implementation this is nothing special and looks 
-   exactly like a normal C version of fibonacci would look.*/
-// int Cfib(double *n){
+int func_matadd(int num_row, int num_col, double **input_1, double **input_2, double **output){
 
-//     printf("hello Cfib _ \n");
+    for (int i = 0; i < num_row; i++){
+        for (int j = 0; j < num_col; j++) {
+            output[i][j] = input_1[i][j] + input_2[i][j];            
+        }
+    }
     
-//     return 0;
-
-// }
+    return 0;
+}
 
 // Our Python binding to our C function
-// This will take one and only one non-keyword argument
-static PyObject* fib(PyObject* self, PyObject* args){
+static PyObject* ext_matadd(PyObject* self, PyObject* args){
     
+    int num_row;
+    int num_col;        
     PyObject *array1_obj;
     PyObject *array2_obj;
+    PyObject *array3_obj;    
 
-    if(!PyArg_ParseTuple(args, "OO", &array1_obj, &array2_obj))
+    if(!PyArg_ParseTuple(args, "iiOOO", &num_row, &num_col, &array1_obj, &array2_obj, &array3_obj))
         return NULL;
 
     double **array1;
     double **array2;
+    double **array3;
 
     // create C arrays from numpy objects
     int typenum = NPY_DOUBLE;
-    PyArray_Descr *descr;
+    PyArray_Descr *descr;    
     descr = PyArray_DescrFromType(typenum);
-    npy_intp dims[3];    
+    npy_intp dims[3];
 
-    if (PyArray_AsCArray(&array1_obj, (void **)&array1, dims, 2, descr) < 0 || PyArray_AsCArray(&array2_obj, (void ***)&array2, dims, 2, descr) < 0) {
+    // Check if whether or not converting to c arrays
+    if (PyArray_AsCArray(&array1_obj, (void **)&array1, dims, 2, descr) < 0 || \
+        PyArray_AsCArray(&array2_obj, (void **)&array2, dims, 2, descr) < 0 || \
+        PyArray_AsCArray(&array3_obj, (void **)&array3, dims, 2, descr) < 0) {
         PyErr_SetString(PyExc_TypeError, "error converting to c array");
         return NULL;
-    }
+    }   
 
-    printf("2D: %f, 2D: %f.\n", array1[1][1], array2[1][2]);
-
-    // return our computed fib number    
-    // return Py_BuildValue("d", Cfib(array));
-    // return Py_BuildValue("f", Cfib(array1));
+    func_matadd(num_row, num_col, array1, array2, array3);
+    
+    return Py_BuildValue("d", 0);    
 }
 
 /* ------------------ 3rd part: The method mapping table ------------------ */
-/* Our Module's Function Definition struct. We require this `NULL` to signal
- the end of our method definition */
 static PyMethodDef myMethods[] = {
-    { "fib", fib, METH_VARARGS, "Fibonancy"},
+    { "ext_matadd", ext_matadd, METH_VARARGS, "Sum of matrices"},
     { NULL, NULL, 0, NULL}
 };
 
-// Our Module Definition struct
 static struct PyModuleDef myModule = {
     PyModuleDef_HEAD_INIT,
     "fib",
