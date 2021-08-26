@@ -1,3 +1,7 @@
+# 1st time run
+# python setup.py install --user
+# python test.py
+
 import numpy as np
 import myModule
 
