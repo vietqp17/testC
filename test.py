@@ -1,5 +1,5 @@
 # 1st time run
-# 1. Need to copy c headers from numpy to the "include" folder in Python
+# 1. Need to copy all c headers from .\numpy\core\include\numpy to .\venv\include
 # 2. python setup.py install
 # 3. python test.py
 
