@@ -1,6 +1,7 @@
 # 1st time run
-# python setup.py install --user
-# python test.py
+# 1. Need to copy c headers from numpy to the "include" folder in Python
+# 2. python setup.py install
+# 3. python test.py
 
 import numpy as np
 import myModule
